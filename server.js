@@ -9,7 +9,7 @@ var serve_static = require('serve-static');
 // body-parser - getting params when post method is requested
 var bodyParser = require('body-parser');
 // jQuery File Tree - make file tree for client for browsing
-var filetree = require('./lib/jqueryFileTree_srv.js');
+var filetree = require('./node/jqueryFileTree_srv.js');
 
 // make server
 var app = express();
@@ -29,11 +29,17 @@ app.get('/', function(req, res){
 
 // method - post //jqueryFileTree_srv.js : request file tree
 app.post('/jqueryFileTree_srv.js', function(req, res){
+
+	// ck
+	var basePath = './user_data/projects';
+	req.body.dir = basePath + req.body.dir;
+
 	filetree.getDirList(req, res);
 });
 
 // method - post //openfile : request open file
 app.post('/openFile', function(req, res){
+
 	var filePath = req.body.path;
 	
 	fs.readFile(filePath, 'utf-8', function(err, data){
