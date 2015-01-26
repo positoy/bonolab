@@ -15,14 +15,14 @@ var filetree = require('./node/jqueryFileTree_srv.js');
 var app = express();
 
 // middleware installation
-app.use(serve_static(__dirname));
+app.use(serve_static(__dirname + "/web"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.Router());
 
 // method - get /
-app.get('/', function(req, res){
+app.get('/load', function(req, res){
 	console.log('### User Request : Get ###');
-	fs.readFile('main.html', function(err, data){
+	fs.readFile('./web/load.html', function(err, data){
 		res.send(data.toString());
 	});
 });
@@ -33,6 +33,8 @@ app.post('/jqueryFileTree_srv.js', function(req, res){
 	// ck
 	var basePath = './user_data/projects';
 	req.body.dir = basePath + req.body.dir;
+
+	console.log("jqueryFileTree :", req.body.dir);
 
 	filetree.getDirList(req, res);
 });
